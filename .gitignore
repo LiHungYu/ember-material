@@ -1,15 +1,17 @@
-*.log
-*.sw*
-.DS_STORE
-.sass-cache/
-bower_components
-node_modules
-dist
-/src/themes/_default-theme.scss
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
-/.idea/
-/components
-/vendor
-/material-font
+# compiled output
+/dist
+/tmp
 
-.polymer-qp
+# dependencies
+/node_modules
+/bower_components
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
+npm-debug.log
+testem.log
