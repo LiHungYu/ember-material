@@ -1,0 +1,58 @@
+import Ember from 'ember';
+import FlexboxMixin from 'ember-material/mixins/flexbox';
+import { module, test } from 'qunit';
+
+module('FlexboxMixin');
+
+// Replace this with your real tests.
+test('it binds to the flexbox layout attributes', function(assert) {
+  var FlexboxObject = Ember.Object.extend(FlexboxMixin);
+  var subject = FlexboxObject.create();
+  assert.ok(subject.get('attributeBindings').contains('layout'));
+  assert.ok(subject.get('attributeBindings').contains('layout-margin'));
+  assert.ok(subject.get('attributeBindings').contains('layout-padding'));
+  assert.ok(subject.get('attributeBindings').contains('layout-fill'));
+  assert.ok(subject.get('attributeBindings').contains('layout-wrap'));
+  assert.ok(subject.get('attributeBindings').contains('flex'));
+  assert.ok(subject.get('attributeBindings').contains('flex-sm'));
+  assert.ok(subject.get('attributeBindings').contains('flex-gt-sm'));
+  assert.ok(subject.get('attributeBindings').contains('flex-md'));
+  assert.ok(subject.get('attributeBindings').contains('flex-gt-md'));
+  assert.ok(subject.get('attributeBindings').contains('flex-lg'));
+  assert.ok(subject.get('attributeBindings').contains('flex-gt-lg'));
+  assert.ok(subject.get('attributeBindings').contains('flex-order'));
+  assert.ok(subject.get('attributeBindings').contains('flex-order-sm'));
+  assert.ok(subject.get('attributeBindings').contains('flex-order-gt-sm'));
+  assert.ok(subject.get('attributeBindings').contains('flex-order-md'));
+  assert.ok(subject.get('attributeBindings').contains('flex-order-gt-md'));
+  assert.ok(subject.get('attributeBindings').contains('flex-order-lg'));
+  assert.ok(subject.get('attributeBindings').contains('flex-order-gt-lg'));
+  assert.ok(subject.get('attributeBindings').contains('layout'));
+  assert.ok(subject.get('attributeBindings').contains('layout-sm'));
+  assert.ok(subject.get('attributeBindings').contains('layout-gt-sm'));
+  assert.ok(subject.get('attributeBindings').contains('layout-md'));
+  assert.ok(subject.get('attributeBindings').contains('layout-gt-md'));
+  assert.ok(subject.get('attributeBindings').contains('layout-lg'));
+  assert.ok(subject.get('attributeBindings').contains('layout-gt-lg'));
+  assert.ok(subject.get('attributeBindings').contains('layout-align'));
+  assert.ok(subject.get('attributeBindings').contains('layout-align-sm'));
+  assert.ok(subject.get('attributeBindings').contains('layout-align-gt-sm'));
+  assert.ok(subject.get('attributeBindings').contains('layout-align-md'));
+  assert.ok(subject.get('attributeBindings').contains('layout-align-gt-md'));
+  assert.ok(subject.get('attributeBindings').contains('layout-align-lg'));
+  assert.ok(subject.get('attributeBindings').contains('layout-align-gt-lg'));
+  assert.ok(subject.get('attributeBindings').contains('show'));
+  assert.ok(subject.get('attributeBindings').contains('show-sm'));
+  assert.ok(subject.get('attributeBindings').contains('show-gt-sm'));
+  assert.ok(subject.get('attributeBindings').contains('show-md'));
+  assert.ok(subject.get('attributeBindings').contains('show-gt-md'));
+  assert.ok(subject.get('attributeBindings').contains('show-lg'));
+  assert.ok(subject.get('attributeBindings').contains('show-gt-lg'));
+  assert.ok(subject.get('attributeBindings').contains('hide'));
+  assert.ok(subject.get('attributeBindings').contains('hide-sm'));
+  assert.ok(subject.get('attributeBindings').contains('hide-gt-sm'));
+  assert.ok(subject.get('attributeBindings').contains('hide-md'));
+  assert.ok(subject.get('attributeBindings').contains('hide-gt-md'));
+  assert.ok(subject.get('attributeBindings').contains('hide-lg'));
+  assert.ok(subject.get('attributeBindings').contains('hide-gt-lg'));
+});

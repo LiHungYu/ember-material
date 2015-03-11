@@ -1,95 +1,102 @@
-describe('md-button', function() {
+import {
+  moduleForComponent,
+  test
+} from 'ember-qunit';
 
-  beforeEach(module('material.components.button'));
+moduleForComponent('md-button', {
+  // specify the other units that are required for this test
+  // needs: ['component:foo', 'helper:bar']
+});
 
-  it('should convert attributes on an md-button to attributes on the generated button', inject(function($compile, $rootScope) {
-    var button = $compile('<md-button hide hide-sm></md-button>')($rootScope);
-    $rootScope.$apply();
-    expect(button[0].hasAttribute('hide')).toBe(true);
-    expect(button[0].hasAttribute('hide-sm')).toBe(true);
-  }));
+test('should convert layout attributes on an md-button to attributes on the generated button', function(assert) {
+  assert.expect(2);
+  let component = this.subject();
 
-  it('should only have one ripple container when a custom ripple color is set', inject(function ($compile, $rootScope, $timeout) {
-    var button = $compile('<md-button md-ink-ripple="#f00">button</md-button>')($rootScope);
+  component.set('hide', true);
+  component.set('hide-sm', true);
+  this.render();
 
-    button.triggerHandler({ type: '$md.pressdown', pointer: { x: 0, y: 0 } });
-    expect(button[0].getElementsByClassName('md-ripple-container').length).toBe(1);
-  }));
+  assert.equal(component.$().prop('hide-sm'), true);
+  assert.equal(component.$().prop('hide'), true);
+});
 
+test('should have only one ripple container when a custom ripple color is set', function(assert) {
+  assert.expect(1);
+  // TODO
+});
 
-  it('should expect an aria-label if element has no text', inject(function($compile, $rootScope, $log) {
-    spyOn($log, 'warn');
-    var button = $compile('<md-button><md-icon></md-icon></md-button>')($rootScope);
-    $rootScope.$apply();
-    expect($log.warn).toHaveBeenCalled();
+test('should expect an aria-label if element has no text', function(assert) {
+  assert.expect(1);
+  // TODO
+});
 
-    $log.warn.reset();
-    button = $compile('<md-button aria-label="something"><md-icon></md-icon></md-button>')($rootScope);
-    $rootScope.$apply();
-    expect($log.warn).not.toHaveBeenCalled();
-  }));
+test('should be a button tag if href is not passed in, anchor if it is', function(assert) {
+  assert.expect(2);
+  let component = this.subject();
 
-  it('should allow attribute directive syntax', inject(function($compile, $rootScope) {
-    var button = $compile('<a md-button href="https://google.com">google</a>')($rootScope.$new());
-    expect(button.hasClass('md-button')).toBe(true);
-  }));
+  component.set('href', undefined);
+  this.render();
+  assert.equal(component.$().prop('tagName'), 'BUTTON');
 
+  Ember.run(() => component.set('href', 'http://example.com/'));
+  this.render();
+  assert.equal(component.$().prop('tagName'), 'A');
+});
 
-  describe('with href or ng-href', function() {
+test('should not set tabindex when not disabled', function(assert) {
+  assert.expect(1);
+  let component = this.subject();
 
-    it('should be anchor if href attr', inject(function($compile, $rootScope) {
-      var button = $compile('<md-button href="/link">')($rootScope.$new());
-      $rootScope.$apply();
-      expect(button[0].tagName.toLowerCase()).toEqual('a');
-    }));
+  component.set('disabled', false);
+  component.set('href', 'http://example.com');
+  this.render();
+  assert.equal(component.$().attr('tabindex'), undefined);
+});
 
-    it('should be anchor if ng-href attr', inject(function($compile, $rootScope) {
-      var button = $compile('<md-button ng-href="/link">')($rootScope.$new());
-      $rootScope.$apply();
-      expect(button[0].tagName.toLowerCase()).toEqual('a');
-    }));
+test('should not set tabindex when used enabled, or without anchor attributes when disabled', function(assert) {
+  assert.expect(2);
+  let component = this.subject();
 
-    it('should be button otherwise', inject(function($compile, $rootScope) {
-      var button = $compile('<md-button>')($rootScope.$new());
-      $rootScope.$apply();
-      expect(button[0].tagName.toLowerCase()).toEqual('button');
-    }));
+  component.set('disabled', false);
+  component.set('href', 'http://example.com');
+  this.render();
+  assert.equal(component.$().attr('tabindex'), undefined);
 
+  Ember.run(() => {
+    component.set('disabled', true);
+    component.set('href', undefined);
   });
+  this.render();
+  assert.equal(component.$().attr('tabindex'), undefined);
 
+});
 
-  describe('with ng-disabled', function() {
+test('should set tabindex=-1 when used with href when disabled', function(assert) {
+  assert.expect(1);
+  let component = this.subject();
 
-    it('should not set `tabindex` when used without anchor attributes', inject(function ($compile, $rootScope, $timeout) {
-      var scope = angular.extend( $rootScope.$new(), { isDisabled : true } );
-      var button = $compile('<md-button ng-disabled="isDisabled">button</md-button>')(scope);
-      $rootScope.$apply();
+  component.set('disabled', true);
+  component.set('href', 'http://example.com/');
+  this.render();
+  assert.equal(component.$().attr('tabindex'), -1);
+});
 
-      expect(button[0].hasAttribute('tabindex')).toBe(false);
-    }));
+test('should be a disabled button when disabled=true and no href', function(assert) {
+  assert.expect(1);
+  let component = this.subject();
 
-    it('should set `tabindex == -1` when used with href', inject(function ($compile, $rootScope, $timeout) {
-      var scope = angular.extend( $rootScope.$new(), { isDisabled : true } );
-      var button = $compile('<md-button ng-disabled="isDisabled" href="#nowhere">button</md-button>')(scope);
+  component.set('disabled', true);
+  component.set('href', undefined);
+  this.render();
+  assert.equal(component.$().prop('disabled'), true);
+});
 
-      $rootScope.$apply();
-      expect(button.attr('tabindex')).toBe("-1");
+test('should be a non-clickable link when disabled=true href', function(assert) {
+  assert.expect(1);
+  let component = this.subject();
 
-      $rootScope.$apply(function(){
-        scope.isDisabled = false;
-      });
-      expect(button.attr('tabindex')).toBe("0");
-
-    }));
-
-    it('should set `tabindex == -1` when used with ng-href', inject(function ($compile, $rootScope, $timeout) {
-      var scope = angular.extend( $rootScope.$new(), { isDisabled : true, url : "http://material.angularjs.org" });
-      var button = $compile('<md-button ng-disabled="isDisabled" ng-href="url">button</md-button>')(scope);
-      $rootScope.$apply();
-
-      expect(button.attr('tabindex')).toBe("-1");
-    }));
-
-  });
-
+  component.set('disabled', true);
+  component.set('href', undefined);
+  this.render();
+  assert.equal(component.$().prop('disabled'), true);
 });
