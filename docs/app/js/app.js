@@ -144,6 +144,14 @@ function(SERVICES, COMPONENTS, DEMOS, PAGES, $location, $rootScope) {
     name: 'Customization',
     type: 'heading',
     children: [{
+      name: 'CSS',
+      type: 'toggle',
+      pages: [{
+        name: 'Typography',
+        url: '/CSS/typography',
+        type: 'link'
+      }]
+    },{
       name: 'Theming',
       type: 'toggle',
       pages: [{
@@ -249,7 +257,6 @@ function(SERVICES, COMPONENTS, DEMOS, PAGES, $location, $rootScope) {
     },
 
     selectPage: function(section, page) {
-      page && page.url && $location.path(page.url);
       self.currentSection = section;
       self.currentPage = page;
     },
@@ -265,6 +272,12 @@ function(SERVICES, COMPONENTS, DEMOS, PAGES, $location, $rootScope) {
 
   function onLocationChange() {
     var path = $location.path();
+
+    if (path == '/') {
+      self.selectSection(null);
+      self.selectPage(null, null);
+      return;
+    }
 
     var matchPage = function(section, page) {
       if (path === page.url) {
@@ -494,6 +507,7 @@ function($rootScope) {
 function($scope, $attrs, $location, $rootScope) {
   $rootScope.currentComponent = $rootScope.currentDoc = null;
 
+  $scope.exampleNotEditable = true;
   $scope.layoutDemo = {
     mainAxis: 'center',
     crossAxis: 'center',
